@@ -8,7 +8,7 @@
 	.equ MAIL_BASE,  0xB880 // Mailbox Base Address
 	.equ MAIL_WRITE, 0x20 // Mailbox Write Register
 	.equ MAIL_TAGS,  0x8    // Mailbox Channel 8: Tags (ARM to VC)
-	.equ PERIPHERAL_BASE, 0x3F000000 // Peripheral Base Address 
+	.equ PERIPHERAL_BASE, 0x3F000000 // Peripheral Base Address
 		
 	.equ Allocate_Buffer,      0x00040001 // Frame Buffer: Allocate Buffer (Response: Frame Buffer Base Address In Bytes, Frame Buffer Size In Bytes)
 
@@ -19,10 +19,6 @@
 	.equ Set_Palette,          0x0004800B // Frame Buffer: Set Palette (Response: RGBA Palette Values (Index 0 To 255))
 	
 	
-	// para seleccionar um pin gpio debemos realizarlo poniendo ciertos bits de una direccion de memoria en 1
-	// esta informacion la sacamos de una data sheet
-	// simepre partimos de la direccion base de los GPIO, a esta se sumamos un ofset y seleccionamos un conjunto de bits 
-	// leugo en esta direccion poniendo ciertos bits en 1, seleccionamos un pin en espesifico y su funcionalidad. 
 	.equ GPIO_BASE, 	0x200000  	// Base de los GPIO desde la dirección PERIPHERAL_BASE.
 	.equ GPIO_GPFSEL1, 	0x4    		// GPIO Function Select 1
 	.equ GPIO_GPLEV0, 	0x34    	// GPIO Pin Level 0 o los niveles de los pines inferiores (0-31)
