@@ -43,86 +43,82 @@ app:
 
 
 //x1 contine el framebuffer
+//------------------------------------------------------Pantalla de inicio----------------------------------------------------------------
+	//Hi Puca!
+
+	//llamamos a dibujar cuadrado con estos parametros: 
+		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+		MOV w4, #0xd970      // ACA MODIFICO COLOR
+		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
+		MOV x12, #0	           // indice de columnas = ACA MOFICA INICIO X
+		MOV x13, #0          // indice de filas = ACA MODIFICA INICIO Y
+		MOV x15, #512           // alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
+		MOV x14, #512         // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
+		BL cuadrado            // llamo a la funcion cuadrado. 
+		
+MOV X6, #3
+MOV X2, #450
+MOV X3, #285
+	espera_pantalla_inicio:
+
+		// --- Delay loop ---
+		movz x11, 0x20, lsl #16
+		delayini: 
+		sub x11,x11,#1
+		cbnz x11, delayini
+		// --- End Delay loop ---
+
+	//MANZANA:
+//llamamos a dibujar circulo con estos parametros
+    MOV x1, x0
+    MOV x18, X2      // centroX
+    MOV x19, X3       // centroY
+    MOV x2, #35         // radio
+    MOV x20, #512       // (Número de columnas)No modificar. 
+    mov w15, #0xf800        //Puca correria 
+    BL dibujar_circulo
+
+//BRILLO EN LA MANZANA
+//llamamos a dibujar circulo con estos parametros
+    MOV x1, x0
+    MOV x18, X2      // centroX
+    MOV x19, X3       // centroY
+    MOV x2,  #6       // radio
+    MOV x20, #512       // (Número de columnas)No modificar. 
+    mov w15, #0xfc6f   // Pink 
+    BL dibujar_circulo
+
+	sub X2, X2 , 200
+	sub x3, x3, 120	
+
+//MANZANA:
+//llamamos a dibujar circulo con estos parametros
+    MOV x1, x0
+    MOV x18, x2       // centroX
+    MOV x19, x3       // centroY
+    MOV x2, #35         // radio
+    MOV x20, #512       // (Número de columnas)No modificar. 
+    mov w15, #0xf800        //Puca correria 
+    BL dibujar_circulo
+
+
+
+//BRILLO EN LA MANZANA
+//llamamos a dibujar circulo con estos parametros
+    MOV x1, x0
+    MOV x18, x2     // centroX
+    MOV x19, x3       // centroY
+    MOV x2,  #6       // radio
+    MOV x20, #512       // (Número de columnas)No modificar. 
+    mov w15, #0xfc6f   // Pink 
+    BL dibujar_circulo
+
+
+SUB X6, X6, #1
+CBZ X6, espera_pantalla_inicio
+
 
 //------------------------------------------------------LA TIERRA---------------------------------------------------------------------
-/*
-
-MOV X9, #0 //POCISIONE EJE Y LA ULTIMA FILA 
-MOV X2, #16   //CONTADOR DE FILAS RESTA EN Y
-MOV W4, 0x07E0  //DIFINO W4 COMO UN COLOR VERDE DE INICIO PARA QUE TENGA CON QUE COMPARAR 
-MOV W5,0x7BE0  //GUARDO EL VERDE OLIVA PARA HACER LUEGO LA COMPARACION 
-MOV W6,0x07E0  // GUARDO EL VERDE CLARO PARA HACER LUEGO LA COMPARACION  
-
-
-TRES_SEIS:
-MOV X3,#16       //CONTADOR DE PARA HACER LOS 8 CUADRADOS
-MOV X12, #0     //POCISIONE EJE X IGUAL 0 PRIMERA COLUMNA
-
-
-		green_paece:
-
-		//Comparo en que verde estoy para saltar al proximo
-		CMP W4, W5
-		BEQ verde_claro
-
-		CMP W4, W6
-		BEQ verde_oliva
-
-				verde_oliva:
-					MOV x1, x0             // x1 contiene la dirección base del frame buffer = A
-					MOV w4, 0x7BE0      // Modifico color
-					MOV x11, #512          // N = Número de píxeles - NO SE MODIFICA
-
-					MOV x15, #32           // Alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-					MOV x14, #32           // Hasta donde iterar en X = x14  ACA MODIFICO ANCHO
-					ADD x12, x12, XZR           // Inicio de la primera columna
-					MOV X13, X9         // Inicio de la fila postSerpiente (Y constante)
-						BL cuadrado         // Llamo a la función cuadrado
-
-				cbz xzr, continue    //COMPARO CON ZERO PARA SALTAR DIRECTO A CONTINUE
-
-
-
-				verde_claro:
-					MOV x1, x0             // x1 contiene la dirección base del frame buffer = A
-					MOV w4,  0x07E0       // Modifico color
-					MOV x11, #512          // N = Número de píxeles - NO SE MODIFICA
-
-					MOV x15, #32           // Alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-					MOV x14, #32           // Hasta donde iterar en X = x14  ACA MODIFICO ANCHO
-					ADD x12, x12, XZR    // Pasamos a la proxima pocision
-					MOV X13, X9          // Inicio de la fila postSerpiente (Y constante)
-						BL cuadrado         // Llamo a la función cuadrado	
-				cbz xzr, continue			//COMPARO CON ZERO PARA SALTAR DIRECTO A CONTINUE
-
-
-		continue:
-		ADD X12, X12, #32 //SUMO 64 PASO A PRIXIMO ELEMENTO DEL EJE X
-		sub x3,x3,#1        //decremento EL CONTADOR 
-		cbnz x3, green_paece  //JUMP
-
-
-ADD X9, X9 ,#32 //RESTO 64 EN EJE Y,  PASO ANTERIOR FILA
-SUB X2, X2, #1 // DISMINUTO EL CONTADOR 
-
-	//Comparo en que verde estoy para saltar al proximo
-		CMP W4, W5
-		BEQ verde_claro_2
-
-		CMP W4, W6
-		BEQ verde_oliva_2
-
-verde_claro_2: MOV W4, 0x07E0 
-CBZ XZR, continue_2
-
-verde_oliva_2: MOV w4, 0x7BE0 
-cbz xzr, continue_2
-
-continue_2:
-cbnz X2, TRES_SEIS  
-*/
-
-
 
 	//llamamos a dibujar cuadrado con estos parametros: 
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
@@ -135,84 +131,95 @@ cbnz X2, TRES_SEIS
 	
 		BL cuadrado            // llamo a la funcion cuadrado. 
 		
-
-
-
 //----------------------------------------------------- Limites donde no pisar -----------------------------------------------------------------------
 
-
-
-	//llamamos a dibujar cuadrado con estos parametros: 
+	//Limite de Izquierdo X=0 Y=0 ancho 32 alto 512
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
 		MOV w4, #0x56df           // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
-		MOV x12, #0	           // indice de columnas = ACA MOFICA INICIO X
-		MOV x13, #0          // indice de filas = ACA MODIFICA INICIO Y
-		MOV x15, #512           // alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-		MOV x14, #32          // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
-	
-		BL cuadrado            // llamo a la funcion cuadrado. 
-	
+		MOV x12, #0	           
+		MOV x13, #0          
+		MOV x15, #512           
+		MOV x14, #32          
+		BL cuadrado            
 
-
-		//llamamos a dibujar cuadrado con estos parametros: 
+	//Lmite Izquierdo X=480 Y=0
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
 		MOV w4, #0x56df           // ACA MODIFICO COLOR
-		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
-		MOV x12, #480           // indice de columnas = ACA MOFICA INICIO X
-		MOV x13, #0          // indice de filas = ACA MODIFICA INICIO Y
-		MOV x15, #512           // alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-		MOV x14, #32          // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
-	
-		BL cuadrado            // llamo a la funcion cuadrado. 
+		MOV x11, #512          
+		MOV x12, #480          
+		MOV x13, #0          
+		MOV x15, #512           
+		MOV x14, #32         
+		BL cuadrado            
 
 		
-		
-			//llamamos a dibujar cuadrado con estos parametros: 
+	//Limite Superior X=0 y Y=0 alto 32 y ancho 512
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
-		MOV w4, #0x56df           // ACA MODIFICO COLOR
-		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
-		MOV x12, #0           // indice de columnas = ACA MOFICA INICIO X
-		MOV x13, #1        // indice de filas = ACA MODIFICA INICIO Y
-		MOV x15, #31          // alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-		MOV x14, #512          // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
+		MOV w4, #0x56df           
+		MOV x11, #512         
+		MOV x12, #0           
+		MOV x13, #0        
+		MOV x15, #32          
+		MOV x14, #512          
+		BL cuadrado             
 
 
-				//llamamos a dibujar cuadrado con estos parametros: 
+	//Limite Inferior X=0 y Y=480
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
-		MOV w4, #0x56df           // ACA MODIFICO COLOR
-		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
-		MOV x12, #0           // indice de columnas = ACA MOFICA INICIO X
-		MOV x13, #480         // indice de filas = ACA MODIFICA INICIO Y
-		MOV x15, #32           // alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-		MOV x14, #512          // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
-	
-		BL cuadrado            // llamo a la funcion cuadrado. 
-
-
+		MOV w4, #0x56df          
+		MOV x11, #512          
+		MOV x12, #0           
+		MOV x13, #480         
+		MOV x15, #32           
+		MOV x14, #512          
+		BL cuadrado            
 
 //----------------------------------------------------- Variable  -----------------------------------------------------------------------
 
 //SETEO VARIABLES 
 
+/*
+  X2---> Mueve la pocision de aparacion del cuadrad en X correspondiente a movimientos derecha e izquierda
+  X3---> Mueve la pocision de aparacion del cuadrado en Y correspondiente a los movimietos arriba y abajo
+  
+  X6---> Guarda la pocision del pixel anterior en X correspondiente a la casilla anterior derecha e izquierda 
+  X5---> Guarda la pocision del pixel anererior en Y correspondiente a la casilla aneterior de arriba y abajo
+  */
+
 	MOV X2, #224
 	MOV X3, #224
+
 	MOV X6, #224  //Para anterior X
 	MOV X5, #224 //Para anerior x
 
 
-
+//Loop del juego:
 mover_cuadrado:
 
+	//Los limite de  derecha e izquieda se comparan con registro X2
 	//Comparo si estoy fuera del mapa limite derecha
-		CMP X2, 480
-		BEQ FIN_JUEGO
+		CMP X2, #480
+		BGE FIN_JUEGO
 
+	//Comparo si estoy fuera del mapa limite Izquierdo
+		CMP X2,#32
+		BLE FIN_JUEGO
+
+
+	//Los limite de arriba y abajo se comparan con registro X3
+		//Comparo si estoy fuera del mapa limite abajo
+		CMP X3, #480
+		BGE FIN_JUEGO
+
+	//Comparo si estoy fuera del mapa limite arriba 
+		CMP X3,#32
+		BLE FIN_JUEGO
 
 
 	// --- Delay loop ---
 	movz x11, 0x20, lsl #16
-delay1: 
+	delay1: 
 	sub x11,x11,#1
 	cbnz x11, delay1
 	// --- End Delay loop ---
@@ -251,9 +258,9 @@ delay1:
       
 	  
 	  //altar a ir hacia arriba
-	    sub x14, x24, #0x4000    //comparo x24 con el bit que deberia estar encendido, si esta 
-		cbz x14 ,               // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
-
+	   // sub x14, x24, #0x4000    //comparo x24 con el bit que deberia estar encendido, si esta 
+		//cbz x14 ,               // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
+		//Tomi le faltaba registro de comparacion por eso lo comente 
 	  
 
 		ADD X2, X2 , #32 //X2=X2+32 paso a proximo elemento derecha 
