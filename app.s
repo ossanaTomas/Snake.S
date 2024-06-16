@@ -13,12 +13,11 @@ app:
 	// selecciono como entradas todos lo pines que voy a utilizar. 
 	
 	//configurar GPIO 1 y 3 como Ouput: 
-   //  mov x26, #0x000           //nesesito un 1 en la posicion 6 y en la 9
-	//stur w26,[x20,#0]        //gpio sel0 es lo mismo que ofset de 0 desde la direccion base
+     mov x26, #0x000           //nesesito un 1 en la posicion 6 y en la 9
+	stur w26,[x20,#0]        //gpio sel0 es lo mismo que ofset de 0 desde la direccion base
                              //guarde en la posicion de memoria, que estos bits estan en 1. 
 
-	mov x26, #0x000         //nesesito un 1 en la posicion 6 y en la 9
-	stur w26,[x20,#0]
+
 
 
 	// X0 contiene la dirección base del framebuffer (NO MODIFICAR, JAMAS MODIFICAR ES EL PRIMER BITS)
@@ -45,9 +44,9 @@ app:
 
 //x1 contine el framebuffer
 //------------------------------------------------------Pantalla de inicio----------------------------------------------------------------
-	//Hi Puca! (dejalo por cabala de prog 3)
 
-	//Fondo pantalla de inicio
+
+	//llamamos a dibujar cuadrado con estos parametros: 
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
 		MOV w4, #0xd970      // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
@@ -63,7 +62,7 @@ MOV X3, #285
 	espera_pantalla_inicio:
 
 		// --- Delay loop ---
-		movz x11, 0x50, lsl #16
+		movz x11, 0x20, lsl #16
 		delayini: 
 		sub x11,x11,#1
 		cbnz x11, delayini
@@ -147,7 +146,7 @@ CBZ X6, espera_pantalla_inicio
 	MOV X3, #224
 
 	MOV X6, #224  //Para anterior X
-	MOV X5, #224 //Para anerior Y
+	MOV X5, #224 //Para anerior x
 
 
 //Loop del juego:
@@ -212,21 +211,23 @@ mover_cuadrado:
 	    //Movimieto a Derecha
 		bl inputRead
       
-		
-	  //altar a ir hacia arriba
-	   // sub x14, x24, #0x4000    //comparo x24 con el bit que deberia estar encendido, si esta 
-		//cbz x14 ,               // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
-		//Tomi le faltaba registro de comparacion por eso lo comente 
 	  
-
+	   //saltar a ir hacia arriba
+	    sub x14, x22, 0x20000    //comparo x24 con el bit que deberia estar encendido, si esta 
+		cbz x14 , Derecha             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
+		  b noderecha
+	  
+Derecha: 
 		ADD X2, X2 , #32 //X2=X2+32 paso a proximo elemento derecha 
 		SUB X6, X2 , #32 //X2= (X2+32)-32
-
+		noderecha: 
 	
 
 		
 		
 CBZ XZR, mover_cuadrado
+
+
 
 
 
