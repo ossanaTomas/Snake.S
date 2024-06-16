@@ -9,31 +9,31 @@ Guión del enlazador y mapa de memoria
 
 LOAD main.o
 
-.text           0x0000000000000000    0x10480
+.text           0x0000000000000000    0x10390
  *(.text*)
- .text          0x0000000000000000    0x10480 main.o
+ .text          0x0000000000000000    0x10390 main.o
                 0x00000000000100a0                inputRead
                 0x00000000000100b8                app
-                0x0000000000010350                cuadrado
-                0x0000000000010398                dibujar_circulo
-                0x0000000000010408                Ledverde
-                0x0000000000010430                Ledrojo
-                0x0000000000010458                LedAmbos
+                0x0000000000010260                cuadrado
+                0x00000000000102a8                dibujar_circulo
+                0x0000000000010318                Ledverde
+                0x0000000000010340                Ledrojo
+                0x0000000000010368                LedAmbos
 
-.iplt           0x0000000000010480        0x0
- .iplt          0x0000000000010480        0x0 main.o
+.iplt           0x0000000000010390        0x0
+ .iplt          0x0000000000010390        0x0 main.o
 
-.rela.dyn       0x0000000000010480        0x0
- .rela.iplt     0x0000000000010480        0x0 main.o
+.rela.dyn       0x0000000000010390        0x0
+ .rela.iplt     0x0000000000010390        0x0 main.o
 
-.data           0x0000000000010480        0x0
- .data          0x0000000000010480        0x0 main.o
+.data           0x0000000000010390        0x0
+ .data          0x0000000000010390        0x0 main.o
 
-.igot.plt       0x0000000000010480        0x0
- .igot.plt      0x0000000000010480        0x0 main.o
+.igot.plt       0x0000000000010390        0x0
+ .igot.plt      0x0000000000010390        0x0 main.o
 
-.bss            0x0000000000010480        0x0
+.bss            0x0000000000010390        0x0
  *(.bss*)
- .bss           0x0000000000010480        0x0 main.o
+ .bss           0x0000000000010390        0x0 main.o
 OUTPUT(main.elf elf64-littleaarch64)
 LOAD linker stubs

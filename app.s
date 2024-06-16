@@ -13,11 +13,12 @@ app:
 	// selecciono como entradas todos lo pines que voy a utilizar. 
 	
 	//configurar GPIO 1 y 3 como Ouput: 
-     mov x26, #0x000           //nesesito un 1 en la posicion 6 y en la 9
-	stur w26,[x20,#0]        //gpio sel0 es lo mismo que ofset de 0 desde la direccion base
+   //  mov x26, #0x000           //nesesito un 1 en la posicion 6 y en la 9
+	//stur w26,[x20,#0]        //gpio sel0 es lo mismo que ofset de 0 desde la direccion base
                              //guarde en la posicion de memoria, que estos bits estan en 1. 
 
-
+	mov x26, #0x000         //nesesito un 1 en la posicion 6 y en la 9
+	stur w26,[x20,#0]
 
 
 	// X0 contiene la dirección base del framebuffer (NO MODIFICAR, JAMAS MODIFICAR ES EL PRIMER BITS)
@@ -44,9 +45,9 @@ app:
 
 //x1 contine el framebuffer
 //------------------------------------------------------Pantalla de inicio----------------------------------------------------------------
-	//Hi Puca!
+	//Hi Puca! (dejalo por cabala de prog 3)
 
-	//llamamos a dibujar cuadrado con estos parametros: 
+	//Fondo pantalla de inicio
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
 		MOV w4, #0xd970      // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
@@ -62,56 +63,11 @@ MOV X3, #285
 	espera_pantalla_inicio:
 
 		// --- Delay loop ---
-		movz x11, 0x20, lsl #16
+		movz x11, 0x50, lsl #16
 		delayini: 
 		sub x11,x11,#1
 		cbnz x11, delayini
 		// --- End Delay loop ---
-
-	//MANZANA:
-//llamamos a dibujar circulo con estos parametros
-    MOV x1, x0
-    MOV x18, X2      // centroX
-    MOV x19, X3       // centroY
-    MOV x2, #35         // radio
-    MOV x20, #512       // (Número de columnas)No modificar. 
-    mov w15, #0xf800        //Puca correria 
-    BL dibujar_circulo
-
-//BRILLO EN LA MANZANA
-//llamamos a dibujar circulo con estos parametros
-    MOV x1, x0
-    MOV x18, X2      // centroX
-    MOV x19, X3       // centroY
-    MOV x2,  #6       // radio
-    MOV x20, #512       // (Número de columnas)No modificar. 
-    mov w15, #0xfc6f   // Pink 
-    BL dibujar_circulo
-
-	sub X2, X2 , 200
-	sub x3, x3, 120	
-
-//MANZANA:
-//llamamos a dibujar circulo con estos parametros
-    MOV x1, x0
-    MOV x18, x2       // centroX
-    MOV x19, x3       // centroY
-    MOV x2, #35         // radio
-    MOV x20, #512       // (Número de columnas)No modificar. 
-    mov w15, #0xf800        //Puca correria 
-    BL dibujar_circulo
-
-
-
-//BRILLO EN LA MANZANA
-//llamamos a dibujar circulo con estos parametros
-    MOV x1, x0
-    MOV x18, x2     // centroX
-    MOV x19, x3       // centroY
-    MOV x2,  #6       // radio
-    MOV x20, #512       // (Número de columnas)No modificar. 
-    mov w15, #0xfc6f   // Pink 
-    BL dibujar_circulo
 
 
 SUB X6, X6, #1
@@ -191,7 +147,7 @@ CBZ X6, espera_pantalla_inicio
 	MOV X3, #224
 
 	MOV X6, #224  //Para anterior X
-	MOV X5, #224 //Para anerior x
+	MOV X5, #224 //Para anerior Y
 
 
 //Loop del juego:
@@ -256,7 +212,7 @@ mover_cuadrado:
 	    //Movimieto a Derecha
 		bl inputRead
       
-	  
+		
 	  //altar a ir hacia arriba
 	   // sub x14, x24, #0x4000    //comparo x24 con el bit que deberia estar encendido, si esta 
 		//cbz x14 ,               // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
@@ -273,59 +229,6 @@ mover_cuadrado:
 CBZ XZR, mover_cuadrado
 
 
-//---------------------------------------------------------Manzana----------------------------------------------------------------
-
-
-
-//MANZANA:
-//llamamos a dibujar circulo con estos parametros
-    MOV x1, x0
-    MOV x18, #450       // centroX
-    MOV x19, #285       // centroY
-    MOV x2, #35         // radio
-    MOV x20, #512       // (Número de columnas)No modificar. 
-    mov w15, #0xf800        //Puca correria 
-
-    BL dibujar_circulo
-
-
-
-//BRILLO EN LA MANZANA
-//llamamos a dibujar circulo con estos parametros
-    MOV x1, x0
-    MOV x18, #465       // centroX
-    MOV x19, #275       // centroY
-    MOV x2,  #6       // radio
-    MOV x20, #512       // (Número de columnas)No modificar. 
-    mov w15, #0xfc6f   // Pink 
-
-    BL dibujar_circulo
-
-
-//TALLO DE LA MANZANA 
-	//llamamos a dibujar cuadrado con estos parametros: 
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
-		MOV w4, #0x40E3           // ACA MODIFICO COLOR
-		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
-		MOV x12, #450	           // indice de columnas = ACA MOFICA INICIO X
-		MOV x13, #245          // indice de filas = ACA MODIFICA INICIO Y
-		MOV x15, #10           // alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-		MOV x14, #4          // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
-	
-		BL cuadrado            // llamo a la funcion cuadrado. 
-		
-
-	//Una hoja 
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
-		MOV w4, 0x07E0            // ACA MODIFICO COLOR
-		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
-		MOV x12, #452	           // indice de columnas = ACA MOFICA INICIO X
-		MOV x13, #245          // indice de filas = ACA MODIFICA INICIO Y
-		MOV x15, #4           // alto - hasta donde iterar en Y = x15  ACA MODIFICA ALTO
-		MOV x14, #12          // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
-	
-		BL cuadrado            // llamo a la funcion cuadrado. 
-		
 
 //-------------------------------------------------------Infinity loop---------------------------------------------------------------------------
 

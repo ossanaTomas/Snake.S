@@ -107,7 +107,7 @@ end_outer_loop:
 
 
 
-//------------------------- Llamar a Puca---------------------------------
+//------------------------- Fondo ---------------------------------
 
 
 
@@ -117,7 +117,7 @@ Ledverde:
 	 str w21, [x20, 0]                      //guardo en la posicion de memoria de los GPIO
 
       mov x15, #65536					   // cualquier numero para delay
-	  lsl x15, x15, 3
+	  lsl x15, x15, 10
     delayverde:    	                       // hago que led verde este prendido cierto tiempo
 		sub x15, x15, #1
     	cmp x15, #0
@@ -151,7 +151,7 @@ LedAmbos:
 	 str w21, [x20, 0]                      //guardo en la posicion de memoria de los GPIO
 
       mov x15, #65536					   // cualquier numero para delay
-	  lsl x15, x15, 3
+	  lsl x15, x15, 10
     delayleds:    	                       // hago que led verde este prendido cierto tiempo
 		sub x15, x15, #1
     	cmp x15, #0
