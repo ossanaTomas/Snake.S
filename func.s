@@ -4,6 +4,9 @@
 .global dibujar_circulo
    // genera un circulo pasando def de  radio, centro(x,y) y color
 	
+.global Ledverde
+.global Ledrojo
+.global LedAmbos
 	
 // deberia limpiar x16
 
@@ -105,3 +108,58 @@ end_outer_loop:
 
 
 //------------------------- Llamar a Puca---------------------------------
+
+
+
+//----------------------------------------LEDS----------------------------------------------------
+Ledverde: 
+     mov w21, #0x40							// pongo el bit 9 en 1, esto es 001000000000
+	 str w21, [x20, 0]                      //guardo en la posicion de memoria de los GPIO
+
+      mov x15, #65536					   // cualquier numero para delay
+	  lsl x15, x15, 3
+    delayverde:    	                       // hago que led verde este prendido cierto tiempo
+		sub x15, x15, #1
+    	cmp x15, #0
+    	bne delayverde
+
+	mov w21, #0x000                        // vuelvo el bit correspondiente a encender el led a 0
+    str w21, [x20, 0]                      
+  
+  br X30
+
+
+Ledrojo: 
+     mov w21, #0x200						// pongo el bit 6 en 1, esto es 001000000
+	 str w21, [x20, 0]                      //guardo en la posicion de memoria de los GPIO
+
+      mov x15, #65536					   // cualquier numero para delay
+	  lsl x15, x15, 10
+    delayrojo:    	                       // hago que led verde este prendido cierto tiempo
+		sub x15, x15, #1
+    	cmp x15, #0
+    	bne delayrojo
+
+	mov w21, #0x000                        // vuelvo el bit correspondiente a encender el led a 0
+    str w21, [x20, 0]                      
+  
+  br x30
+
+
+LedAmbos: 
+     mov w21, #0x240					  // pongo el bit 9 y 6 en 1, esto es 0010010000000
+	 str w21, [x20, 0]                      //guardo en la posicion de memoria de los GPIO
+
+      mov x15, #65536					   // cualquier numero para delay
+	  lsl x15, x15, 3
+    delayleds:    	                       // hago que led verde este prendido cierto tiempo
+		sub x15, x15, #1
+    	cmp x15, #0
+    	bne delayleds
+
+	mov w21, #0x000                        // vuelvo el bit correspondiente a encender el led a 0
+    str w21, [x20, 0]                      
+  
+   br x30
+
+

@@ -7,11 +7,38 @@ app:
 	
 	// Configurar GPIO 17 como input:
 	mov X21,#0
-	str w21,[x20,GPIO_GPFSEL1] 		// Coloco 0 en Function Select 1 (base + 4) "Teclas" 	
+	str w21,[x20,GPIO_GPFSEL1] 		// almaceno-pongo 0 en la direccion base+ gpiosel1, con esto aparte de configurar
+	// el gpio17 como imput, estoy poniedo todo el resto de sel1 en 0, con lo cual ya todos (10-19) me quedan configurados
+	//como imput. Siendo mas riguroso esto no es del todo correcto dado que configuro mas pines, pero me sirve dado que 
+	// selecciono como entradas todos lo pines que voy a utilizar. 
 	
-	//---------------- Main code --------------------
+	//configurar GPIO 1 y 3 como Ouput: 
+     mov x26, #0x000           //nesesito un 1 en la posicion 6 y en la 9
+	stur w26,[x20,#0]        //gpio sel0 es lo mismo que ofset de 0 desde la direccion base
+                             //guarde en la posicion de memoria, que estos bits estan en 1. 
+
+
+
+
 	// X0 contiene la dirección base del framebuffer (NO MODIFICAR, JAMAS MODIFICAR ES EL PRIMER BITS)
 	//Conivene tomarlo como referenica y movernos por medios de otros registros como en X10
+	//---------------- Main code --------------------
+
+   // mov x15, #0x240
+   // str w15, [x20, 0]
+
+    // mov x27, #0x40
+	//str w27, [x20, 0]
+
+
+	// mov x27, #0x200
+	//str w27, [x20, 0]
+
+
+
+
+
+
 
 
 
@@ -216,7 +243,19 @@ delay1:
 		MOV x14, #32          // ACA MODIFICO ANCHO
 		BL cuadrado            // llamo a la funcion cuadrado. 
 
-		//Movimieto a Derecha
+		
+//chekear movimientos: 		
+		
+	    //Movimieto a Derecha
+		bl inputRead
+      
+	  
+	  //altar a ir hacia arriba
+	    sub x14, x24, #0x4000    //comparo x24 con el bit que deberia estar encendido, si esta 
+		cbz x14 ,               // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
+
+	  
+
 		ADD X2, X2 , #32 //X2=X2+32 paso a proximo elemento derecha 
 		SUB X6, X2 , #32 //X2= (X2+32)-32
 
@@ -294,7 +333,7 @@ FIN_JUEGO:
 		MOV x14, #512         // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
 	
 		BL cuadrado            // llamo a la funcion cuadrado. 
-
+        BL Ledrojo
 
 InfLoop: 
 	b InfLoop  
