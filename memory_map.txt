@@ -9,31 +9,31 @@ Linker script and memory map
 
 LOAD main.o
 
-.text           0x0000000000000000    0x1041c
+.text           0x0000000000000000    0x1043c
  *(.text*)
- .text          0x0000000000000000    0x1041c main.o
+ .text          0x0000000000000000    0x1043c main.o
                 0x00000000000100a0                inputRead
                 0x00000000000100b8                app
-                0x00000000000102ec                cuadrado
-                0x0000000000010334                dibujar_circulo
-                0x00000000000103a4                Ledverde
-                0x00000000000103cc                Ledrojo
-                0x00000000000103f4                LedAmbos
+                0x000000000001030c                cuadrado
+                0x0000000000010354                dibujar_circulo
+                0x00000000000103c4                Ledverde
+                0x00000000000103ec                Ledrojo
+                0x0000000000010414                LedAmbos
 
-.iplt           0x000000000001041c        0x0
- .iplt          0x000000000001041c        0x0 main.o
+.iplt           0x000000000001043c        0x0
+ .iplt          0x000000000001043c        0x0 main.o
 
-.rela.dyn       0x0000000000010420        0x0
- .rela.iplt     0x0000000000010420        0x0 main.o
+.rela.dyn       0x0000000000010440        0x0
+ .rela.iplt     0x0000000000010440        0x0 main.o
 
-.data           0x000000000001041c        0x0
- .data          0x000000000001041c        0x0 main.o
+.data           0x000000000001043c        0x0
+ .data          0x000000000001043c        0x0 main.o
 
-.igot.plt       0x0000000000010420        0x0
- .igot.plt      0x0000000000010420        0x0 main.o
+.igot.plt       0x0000000000010440        0x0
+ .igot.plt      0x0000000000010440        0x0 main.o
 
-.bss            0x000000000001041c        0x0
+.bss            0x000000000001043c        0x0
  *(.bss*)
- .bss           0x000000000001041c        0x0 main.o
+ .bss           0x000000000001043c        0x0 main.o
 OUTPUT(main.elf elf64-littleaarch64)
 LOAD linker stubs

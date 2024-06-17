@@ -210,17 +210,17 @@ mover_cuadrado:
       
 	//En el caso de que haya leido algo input Read
 	   // a ir hacia derecha  
-	    sub x14, x27, 0x20000    //comparo x24 con el bit que deberia estar encendido, si esta 
-		cbz x14 , Derecha             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
+	    sub x14, x27, 0x20000               //comparo x24 con el bit que deberia estar encendido, si esta 
+		cbz x14 , Derecha                   // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
 		  //b noderecha
 
-		// a ir hacia derecha  
-	    sub x14, x23, 0x8000    //comparo x24 con el bit que deberia estar encendido, si esta 
+		// a ir hacia izquierda 
+	    sub x14, x23, 0x8000                     //comparo x24 con el bit que deberia estar encendido, si esta 
 		cbz x14 , IZQUIERDA             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
 		  //b noizquierda
 
-		// a ir hacia derecha  
-	    sub x14, x24, 0x4000     //comparo x24 con el bit que deberia estar encendido, si esta 
+		// a ir hacia arriba  
+	    sub x14, x24, 0x4000        //comparo x24 con el bit que deberia estar encendido, si esta 
 		cbz x14 , ARRIBA             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
 		  //b noderecha
 
@@ -230,7 +230,9 @@ mover_cuadrado:
 		  
 	// COMPARADORES EN CASO DE QUE EL INPUTREAD NO LEA NADA 
 	//por ahora desactivado hasta que anden los otros movimientos 
-	 
+
+
+
       CMP X7, #6
 	  BEQ Derecha
 
@@ -247,6 +249,8 @@ mover_cuadrado:
 
 
 Derecha: 
+        cmp x7, #4               // si esta aciva la bandera de izquierda , esquivamos ir a la derecha
+		b.eq IZQUIERDA          //  seguimos yendo a izquierda por mas que precionenen el pulsador. 
         SUB X6, X2 , #0
 		SUB X5, x3, #0
 		ADD X2, X2 , #32 //X2=X2+32 paso a proximo elemento derecha 
@@ -256,6 +260,8 @@ Derecha:
 	
 
 IZQUIERDA:
+        cmp x7, #6               // si esta aciva la bandera de derecha, esquivamos ir a la izquierda. 
+		b.eq Derecha             //seguimos ejecutando ir a la derecha. 
         SUB X5, x3, #0
 		SUB X6, X2 , #0
 		SUB X2, X2 , #32 //X2=X2-32 paso a proximo elemento IZUQIERDA 
@@ -264,6 +270,8 @@ IZQUIERDA:
 		          //noizquierda: 
 
 ARRIBA:
+         cmp x7, #2               // si esta aciva la bandera de abajo, esquivamos ir hacia arriba. 
+		b.eq ABAJO                // seguimos ejecutando ir hacia abajo 
         SUB X6, X2 , #0
         ADD X5, X3, #0
 		SUB X3, X3, #32
@@ -271,6 +279,8 @@ ARRIBA:
 		b Ysalta 
 
 ABAJO: 
+        cmp x7, #8              // si esta aciva la bandera de arriba, esquivamos ir hacia abajo. 
+		b.eq ARRIBA              // seguimos ejecutando ir hacia arriba. 
         SUB X6, X2 , #0
         SUB X5, X3, #0
 		ADD X3, X3, #32
@@ -289,7 +299,7 @@ CBZ XZR, mover_cuadrado
 FIN_JUEGO:
 	  //llamamos a dibujar cuadrado con estos parametros: 
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
-		MOV w4, #0x40E3       // ACA MODIFICO COLOR
+		MOV w4, #0xf800      // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
 		MOV x12, #0	           // indice de columnas = ACA MOFICA INICIO X
 		MOV x13, #0          // indice de filas = ACA MODIFICA INICIO Y
@@ -297,7 +307,7 @@ FIN_JUEGO:
 		MOV x14, #512         // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
 	
 		BL cuadrado            // llamo a la funcion cuadrado. 
-        BL Ledrojo             
+        BL Ledrojo             //  
 
 InfLoop: 
 	b InfLoop  
