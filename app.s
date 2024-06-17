@@ -1,4 +1,5 @@
 .globl app
+
 app:
 	//---------------- Inicialización GPIO --------------------
 	//Correeponde a  ininciacion y teclas 
@@ -148,6 +149,8 @@ CBZ X6, espera_pantalla_inicio
 	MOV X6, #224  //Para anterior X
 	MOV X5, #224 //Para anerior x
 
+	MOV X7, #0 //registro de guarado GPIO anterior 
+
 
 //Loop del juego:
 mover_cuadrado:
@@ -173,7 +176,7 @@ mover_cuadrado:
 
 
 	// --- Delay loop ---
-	movz x11, 0x20, lsl #16
+	movz x11, 0x40, lsl #16
 	delay1: 
 	sub x11,x11,#1
 	cbnz x11, delay1
@@ -186,7 +189,7 @@ mover_cuadrado:
 		MOV w4, #0x7BE0         // ACA MODIFICO COLOR      // ACA MODIFICO COLOR
 		MOV x11, #512          // NO SE MODIFICA
 		MOV x12, X6	           // indice de columnas = ACA MOFICA INICIO X
-		MOV x13, X3          // indice de filas = ACA MODIFICA INICIO Y
+		MOV x13, X5          // indice de filas = ACA MODIFICA INICIO Y
 		MOV x15, #32           //ACA MODIFICA ALTO
 		MOV x14, #32          // ACA MODIFICO ANCHO
 		BL cuadrado            // llamo a la funcion cuadrado. 
@@ -208,23 +211,77 @@ mover_cuadrado:
 		
 //chekear movimientos: 		
 		
-	    //Movimieto a Derecha
-		bl inputRead
+	//Input Read
+		BL inputRead
       
-	  
-	   //saltar a ir hacia arriba
+	//En el caso de que haya leido algo input Read
+	   // a ir hacia derecha  
 	    sub x14, x22, 0x20000    //comparo x24 con el bit que deberia estar encendido, si esta 
 		cbz x14 , Derecha             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
-		  b noderecha
-	  
+		  //b noderecha
+
+		// a ir hacia derecha  
+	    sub x14, x23, 0x8000    //comparo x24 con el bit que deberia estar encendido, si esta 
+		cbz x14 , IZQUIERDA             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
+		  //b noizquierda
+
+		// a ir hacia derecha  
+	    sub x14, x24, 0x4000     //comparo x24 con el bit que deberia estar encendido, si esta 
+		cbz x14 , ARRIBA             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
+		  //b noderecha
+
+		// a ir hacia derecha  
+	    sub x14, x25, 0x40000   //comparo x24 con el bit que deberia estar encendido, si esta 
+		cbz x14 , ABAJO             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
+		  
+	// COMPARADORES EN CASO DE QUE EL INPUTREAD NO LEA NADA 
+	//por ahora desactivado hasta que anden los otros movimientos 
+	 /*
+ CMP X7, #6
+	  BEQ Derecha
+
+	  CMP X7, #4
+	  BEQ IZQUIERDA
+
+	  CMP X7, #8
+	  BEQ ARRIBA
+
+	  CMP X7, #2
+	  BEQ ABAJO	*/
+  
+		b Ysalta  
+
+
 Derecha: 
 		ADD X2, X2 , #32 //X2=X2+32 paso a proximo elemento derecha 
 		SUB X6, X2 , #32 //X2= (X2+32)-32
-		noderecha: 
+		MOV X7, #6
+		b Ysalta 
+		//noderecha: 
 	
 
-		
-		
+
+IZQUIERDA:
+		SUB X2, X2 , #32 //X2=X2-32 paso a proximo elemento IZUQIERDA 
+		ADD X6, X2 , #32 //X6= (X2-32)+32 
+		MOV X7, #4
+		b Ysalta 
+		//noizquierda: 
+
+
+ARRIBA:
+		SUB X3, X3, #32
+		ADD X5, X3, #32
+		MOV X7, #8
+		b Ysalta 
+
+ABAJO: 
+		ADD X3, X3, #32
+		SUB X5, X3, #32
+		MOV X7, #2
+
+Ysalta:
+
 CBZ XZR, mover_cuadrado
 
 

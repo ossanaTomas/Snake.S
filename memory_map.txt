@@ -1,39 +1,39 @@
 
-Memory Configuration
+Configuración de la Memoria
 
-Name             Origin             Length             Attributes
+Nombre           Origen             Longitud           Atributos
 ram              0x0000000000000000 0x0000000000400000
 *default*        0x0000000000000000 0xffffffffffffffff
 
-Linker script and memory map
+Guión del enlazador y mapa de memoria
 
 LOAD main.o
 
-.text           0x0000000000000000    0x1039c
+.text           0x0000000000000000    0x103ec
  *(.text*)
- .text          0x0000000000000000    0x1039c main.o
+ .text          0x0000000000000000    0x103ec main.o
                 0x00000000000100a0                inputRead
                 0x00000000000100b8                app
-                0x000000000001026c                cuadrado
-                0x00000000000102b4                dibujar_circulo
-                0x0000000000010324                Ledverde
-                0x000000000001034c                Ledrojo
-                0x0000000000010374                LedAmbos
+                0x00000000000102bc                cuadrado
+                0x0000000000010304                dibujar_circulo
+                0x0000000000010374                Ledverde
+                0x000000000001039c                Ledrojo
+                0x00000000000103c4                LedAmbos
 
-.iplt           0x000000000001039c        0x0
- .iplt          0x000000000001039c        0x0 main.o
+.iplt           0x00000000000103ec        0x0
+ .iplt          0x00000000000103ec        0x0 main.o
 
-.rela.dyn       0x00000000000103a0        0x0
- .rela.iplt     0x00000000000103a0        0x0 main.o
+.rela.dyn       0x00000000000103f0        0x0
+ .rela.iplt     0x00000000000103f0        0x0 main.o
 
-.data           0x000000000001039c        0x0
- .data          0x000000000001039c        0x0 main.o
+.data           0x00000000000103ec        0x0
+ .data          0x00000000000103ec        0x0 main.o
 
-.igot.plt       0x00000000000103a0        0x0
- .igot.plt      0x00000000000103a0        0x0 main.o
+.igot.plt       0x00000000000103f0        0x0
+ .igot.plt      0x00000000000103f0        0x0 main.o
 
-.bss            0x000000000001039c        0x0
+.bss            0x00000000000103ec        0x0
  *(.bss*)
- .bss           0x000000000001039c        0x0 main.o
+ .bss           0x00000000000103ec        0x0 main.o
 OUTPUT(main.elf elf64-littleaarch64)
 LOAD linker stubs
