@@ -35,7 +35,7 @@
 // una sola funcion lee todo, podria ser desarmada en funciones individuales tmb.
 inputRead: 	
 	ldr w22, [x20, GPIO_GPLEV0] 	//base + lev0 (selecciona 32 bits) Leo el registro GPIO Pin Level 0 y lo guardo en X22
-	and X22,X22, 0x20000	// Limpio el bit 17 (estado del GPIO17)--DERECHA
+	and X27,X22, 0x20000	// Limpio el bit 17 (estado del GPIO17)--DERECHA
 	and X23,x22, 0x8000     // bit 16 en 1, --IZQUIERDA
     And x24,x22, 0x4000     // bit15 en 1--	ARRIBA
 	And x25,x22, 0x40000    //bit 19 en 1-- ABAJO (Sin sentido por ahora)

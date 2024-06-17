@@ -1,3 +1,7 @@
+
+
+
+
 .globl app
 
 app:
@@ -28,14 +32,6 @@ app:
    // mov x15, #0x240
    // str w15, [x20, 0]
 
-    // mov x27, #0x40
-	//str w27, [x20, 0]
-
-
-	// mov x27, #0x200
-	//str w27, [x20, 0]
-
-
 
 
 
@@ -45,7 +41,6 @@ app:
 
 //x1 contine el framebuffer
 //------------------------------------------------------Pantalla de inicio----------------------------------------------------------------
-
 
 	//llamamos a dibujar cuadrado con estos parametros: 
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
@@ -75,7 +70,6 @@ CBZ X6, espera_pantalla_inicio
 
 
 //------------------------------------------------------LA TIERRA---------------------------------------------------------------------
-
 	//llamamos a dibujar cuadrado con estos parametros: 
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
 		MOV w4, #0x7BE0         // ACA MODIFICO COLOR
@@ -162,7 +156,7 @@ mover_cuadrado:
 
 	//Comparo si estoy fuera del mapa limite Izquierdo
 		CMP X2,#32
-		BLE FIN_JUEGO
+		BLT FIN_JUEGO
 
 
 	//Los limite de arriba y abajo se comparan con registro X3
@@ -172,11 +166,11 @@ mover_cuadrado:
 
 	//Comparo si estoy fuera del mapa limite arriba 
 		CMP X3,#32
-		BLE FIN_JUEGO
+		BLT FIN_JUEGO
 
 
 	// --- Delay loop ---
-	movz x11, 0x40, lsl #16
+	movz x11, 0x20, lsl #16
 	delay1: 
 	sub x11,x11,#1
 	cbnz x11, delay1
@@ -216,7 +210,7 @@ mover_cuadrado:
       
 	//En el caso de que haya leido algo input Read
 	   // a ir hacia derecha  
-	    sub x14, x22, 0x20000    //comparo x24 con el bit que deberia estar encendido, si esta 
+	    sub x14, x27, 0x20000    //comparo x24 con el bit que deberia estar encendido, si esta 
 		cbz x14 , Derecha             // salto a algun lugar en donde este la implemetacion para ir hacia arriba. 
 		  //b noderecha
 
@@ -236,8 +230,8 @@ mover_cuadrado:
 		  
 	// COMPARADORES EN CASO DE QUE EL INPUTREAD NO LEA NADA 
 	//por ahora desactivado hasta que anden los otros movimientos 
-	 /*
- CMP X7, #6
+	 
+      CMP X7, #6
 	  BEQ Derecha
 
 	  CMP X7, #4
@@ -247,37 +241,39 @@ mover_cuadrado:
 	  BEQ ARRIBA
 
 	  CMP X7, #2
-	  BEQ ABAJO	*/
+	  BEQ ABAJO	
   
 		b Ysalta  
 
 
 Derecha: 
+        SUB X6, X2 , #0
+		SUB X5, x3, #0
 		ADD X2, X2 , #32 //X2=X2+32 paso a proximo elemento derecha 
-		SUB X6, X2 , #32 //X2= (X2+32)-32
 		MOV X7, #6
 		b Ysalta 
 		//noderecha: 
 	
 
-
 IZQUIERDA:
+        SUB X5, x3, #0
+		SUB X6, X2 , #0
 		SUB X2, X2 , #32 //X2=X2-32 paso a proximo elemento IZUQIERDA 
-		ADD X6, X2 , #32 //X6= (X2-32)+32 
 		MOV X7, #4
 		b Ysalta 
-		//noizquierda: 
-
+		          //noizquierda: 
 
 ARRIBA:
+        SUB X6, X2 , #0
+        ADD X5, X3, #0
 		SUB X3, X3, #32
-		ADD X5, X3, #32
 		MOV X7, #8
 		b Ysalta 
 
 ABAJO: 
+        SUB X6, X2 , #0
+        SUB X5, X3, #0
 		ADD X3, X3, #32
-		SUB X5, X3, #32
 		MOV X7, #2
 
 Ysalta:
@@ -291,7 +287,7 @@ CBZ XZR, mover_cuadrado
 //-------------------------------------------------------Infinity loop---------------------------------------------------------------------------
 
 FIN_JUEGO:
-	//llamamos a dibujar cuadrado con estos parametros: 
+	  //llamamos a dibujar cuadrado con estos parametros: 
 		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
 		MOV w4, #0x40E3       // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
@@ -301,7 +297,7 @@ FIN_JUEGO:
 		MOV x14, #512         // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
 	
 		BL cuadrado            // llamo a la funcion cuadrado. 
-        BL Ledrojo
+        BL Ledrojo             
 
 InfLoop: 
 	b InfLoop  

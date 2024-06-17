@@ -1,8 +1,8 @@
 
-main.elf:     formato del fichero elf64-littleaarch64
+main.elf:     file format elf64-littleaarch64
 
 
-Desensamblado de la sección .text:
+Disassembly of section .text:
 
 0000000000000000 <FB_Init-0xc>:
        0:	d53800a0 	mrs	x0, mpidr_el1
@@ -16446,7 +16446,7 @@ Desensamblado de la sección .text:
 
 00000000000100a0 <inputRead>:
    100a0:	b9403696 	ldr	w22, [x20, #52]
-   100a4:	926f02d6 	and	x22, x22, #0x20000
+   100a4:	926f02db 	and	x27, x22, #0x20000
    100a8:	927102d7 	and	x23, x22, #0x8000
    100ac:	927202d8 	and	x24, x22, #0x4000
    100b0:	926e02d9 	and	x25, x22, #0x40000
@@ -16465,7 +16465,7 @@ Desensamblado de la sección .text:
    100dc:	d280000d 	mov	x13, #0x0                   	// #0
    100e0:	d280400f 	mov	x15, #0x200                 	// #512
    100e4:	d280400e 	mov	x14, #0x200                 	// #512
-   100e8:	94000075 	bl	102bc <cuadrado>
+   100e8:	94000081 	bl	102ec <cuadrado>
    100ec:	d2800066 	mov	x6, #0x3                   	// #3
    100f0:	d2803842 	mov	x2, #0x1c2                 	// #450
    100f4:	d28023a3 	mov	x3, #0x11d                 	// #285
@@ -16485,7 +16485,7 @@ Desensamblado de la sección .text:
    1011c:	d280000d 	mov	x13, #0x0                   	// #0
    10120:	d280400f 	mov	x15, #0x200                 	// #512
    10124:	d280400e 	mov	x14, #0x200                 	// #512
-   10128:	94000065 	bl	102bc <cuadrado>
+   10128:	94000071 	bl	102ec <cuadrado>
    1012c:	aa0003e1 	mov	x1, x0
    10130:	528adbe4 	mov	w4, #0x56df                	// #22239
    10134:	d280400b 	mov	x11, #0x200                 	// #512
@@ -16493,7 +16493,7 @@ Desensamblado de la sección .text:
    1013c:	d280000d 	mov	x13, #0x0                   	// #0
    10140:	d280400f 	mov	x15, #0x200                 	// #512
    10144:	d280040e 	mov	x14, #0x20                  	// #32
-   10148:	9400005d 	bl	102bc <cuadrado>
+   10148:	94000069 	bl	102ec <cuadrado>
    1014c:	aa0003e1 	mov	x1, x0
    10150:	528adbe4 	mov	w4, #0x56df                	// #22239
    10154:	d280400b 	mov	x11, #0x200                 	// #512
@@ -16501,7 +16501,7 @@ Desensamblado de la sección .text:
    1015c:	d280000d 	mov	x13, #0x0                   	// #0
    10160:	d280400f 	mov	x15, #0x200                 	// #512
    10164:	d280040e 	mov	x14, #0x20                  	// #32
-   10168:	94000055 	bl	102bc <cuadrado>
+   10168:	94000061 	bl	102ec <cuadrado>
    1016c:	aa0003e1 	mov	x1, x0
    10170:	528adbe4 	mov	w4, #0x56df                	// #22239
    10174:	d280400b 	mov	x11, #0x200                 	// #512
@@ -16509,7 +16509,7 @@ Desensamblado de la sección .text:
    1017c:	d280000d 	mov	x13, #0x0                   	// #0
    10180:	d280040f 	mov	x15, #0x20                  	// #32
    10184:	d280400e 	mov	x14, #0x200                 	// #512
-   10188:	9400004d 	bl	102bc <cuadrado>
+   10188:	94000059 	bl	102ec <cuadrado>
    1018c:	aa0003e1 	mov	x1, x0
    10190:	528adbe4 	mov	w4, #0x56df                	// #22239
    10194:	d280400b 	mov	x11, #0x200                 	// #512
@@ -16517,7 +16517,7 @@ Desensamblado de la sección .text:
    1019c:	d2803c0d 	mov	x13, #0x1e0                 	// #480
    101a0:	d280040f 	mov	x15, #0x20                  	// #32
    101a4:	d280400e 	mov	x14, #0x200                 	// #512
-   101a8:	94000045 	bl	102bc <cuadrado>
+   101a8:	94000051 	bl	102ec <cuadrado>
    101ac:	d2801c02 	mov	x2, #0xe0                  	// #224
    101b0:	d2801c03 	mov	x3, #0xe0                  	// #224
    101b4:	d2801c06 	mov	x6, #0xe0                  	// #224
@@ -16526,14 +16526,14 @@ Desensamblado de la sección .text:
 
 00000000000101c0 <mover_cuadrado>:
    101c0:	f107805f 	cmp	x2, #0x1e0
-   101c4:	5400068a 	b.ge	10294 <FIN_JUEGO>  // b.tcont
+   101c4:	5400080a 	b.ge	102c4 <FIN_JUEGO>  // b.tcont
    101c8:	f100805f 	cmp	x2, #0x20
-   101cc:	5400064d 	b.le	10294 <FIN_JUEGO>
+   101cc:	540007cb 	b.lt	102c4 <FIN_JUEGO>  // b.tstop
    101d0:	f107807f 	cmp	x3, #0x1e0
-   101d4:	5400060a 	b.ge	10294 <FIN_JUEGO>  // b.tcont
+   101d4:	5400078a 	b.ge	102c4 <FIN_JUEGO>  // b.tcont
    101d8:	f100807f 	cmp	x3, #0x20
-   101dc:	540005cd 	b.le	10294 <FIN_JUEGO>
-   101e0:	d2a0080b 	mov	x11, #0x400000              	// #4194304
+   101dc:	5400074b 	b.lt	102c4 <FIN_JUEGO>  // b.tstop
+   101e0:	d2a0040b 	mov	x11, #0x200000              	// #2097152
 
 00000000000101e4 <delay1>:
    101e4:	d100056b 	sub	x11, x11, #0x1
@@ -16545,7 +16545,7 @@ Desensamblado de la sección .text:
    101fc:	aa0503ed 	mov	x13, x5
    10200:	d280040f 	mov	x15, #0x20                  	// #32
    10204:	d280040e 	mov	x14, #0x20                  	// #32
-   10208:	9400002d 	bl	102bc <cuadrado>
+   10208:	94000039 	bl	102ec <cuadrado>
    1020c:	aa0003e1 	mov	x1, x0
    10210:	529fffe4 	mov	w4, #0xffff                	// #65535
    10214:	d280400b 	mov	x11, #0x200                 	// #512
@@ -16553,164 +16553,176 @@ Desensamblado de la sección .text:
    1021c:	aa0303ed 	mov	x13, x3
    10220:	d280040f 	mov	x15, #0x20                  	// #32
    10224:	d280040e 	mov	x14, #0x20                  	// #32
-   10228:	94000025 	bl	102bc <cuadrado>
+   10228:	94000031 	bl	102ec <cuadrado>
    1022c:	97ffff9d 	bl	100a0 <inputRead>
-   10230:	d14082ce 	sub	x14, x22, #0x20, lsl #12
-   10234:	b400010e 	cbz	x14, 10254 <Derecha>
+   10230:	d140836e 	sub	x14, x27, #0x20, lsl #12
+   10234:	b400020e 	cbz	x14, 10274 <Derecha>
    10238:	d14022ee 	sub	x14, x23, #0x8, lsl #12
-   1023c:	b400014e 	cbz	x14, 10264 <IZQUIERDA>
+   1023c:	b400026e 	cbz	x14, 10288 <IZQUIERDA>
    10240:	d140130e 	sub	x14, x24, #0x4, lsl #12
-   10244:	b400018e 	cbz	x14, 10274 <ARRIBA>
+   10244:	b40002ce 	cbz	x14, 1029c <ARRIBA>
    10248:	d141032e 	sub	x14, x25, #0x40, lsl #12
-   1024c:	b40001ce 	cbz	x14, 10284 <ABAJO>
-   10250:	14000010 	b	10290 <Ysalta>
+   1024c:	b400032e 	cbz	x14, 102b0 <ABAJO>
+   10250:	f10018ff 	cmp	x7, #0x6
+   10254:	54000100 	b.eq	10274 <Derecha>  // b.none
+   10258:	f10010ff 	cmp	x7, #0x4
+   1025c:	54000160 	b.eq	10288 <IZQUIERDA>  // b.none
+   10260:	f10020ff 	cmp	x7, #0x8
+   10264:	540001c0 	b.eq	1029c <ARRIBA>  // b.none
+   10268:	f10008ff 	cmp	x7, #0x2
+   1026c:	54000220 	b.eq	102b0 <ABAJO>  // b.none
+   10270:	14000014 	b	102c0 <Ysalta>
 
-0000000000010254 <Derecha>:
-   10254:	91008042 	add	x2, x2, #0x20
-   10258:	d1008046 	sub	x6, x2, #0x20
-   1025c:	d28000c7 	mov	x7, #0x6                   	// #6
-   10260:	1400000c 	b	10290 <Ysalta>
+0000000000010274 <Derecha>:
+   10274:	d1000046 	sub	x6, x2, #0x0
+   10278:	d1000065 	sub	x5, x3, #0x0
+   1027c:	91008042 	add	x2, x2, #0x20
+   10280:	d28000c7 	mov	x7, #0x6                   	// #6
+   10284:	1400000f 	b	102c0 <Ysalta>
 
-0000000000010264 <IZQUIERDA>:
-   10264:	d1008042 	sub	x2, x2, #0x20
-   10268:	91008046 	add	x6, x2, #0x20
-   1026c:	d2800087 	mov	x7, #0x4                   	// #4
-   10270:	14000008 	b	10290 <Ysalta>
+0000000000010288 <IZQUIERDA>:
+   10288:	d1000065 	sub	x5, x3, #0x0
+   1028c:	d1000046 	sub	x6, x2, #0x0
+   10290:	d1008042 	sub	x2, x2, #0x20
+   10294:	d2800087 	mov	x7, #0x4                   	// #4
+   10298:	1400000a 	b	102c0 <Ysalta>
 
-0000000000010274 <ARRIBA>:
-   10274:	d1008063 	sub	x3, x3, #0x20
-   10278:	91008065 	add	x5, x3, #0x20
-   1027c:	d2800107 	mov	x7, #0x8                   	// #8
-   10280:	14000004 	b	10290 <Ysalta>
+000000000001029c <ARRIBA>:
+   1029c:	d1000046 	sub	x6, x2, #0x0
+   102a0:	91000065 	add	x5, x3, #0x0
+   102a4:	d1008063 	sub	x3, x3, #0x20
+   102a8:	d2800107 	mov	x7, #0x8                   	// #8
+   102ac:	14000005 	b	102c0 <Ysalta>
 
-0000000000010284 <ABAJO>:
-   10284:	91008063 	add	x3, x3, #0x20
-   10288:	d1008065 	sub	x5, x3, #0x20
-   1028c:	d2800047 	mov	x7, #0x2                   	// #2
+00000000000102b0 <ABAJO>:
+   102b0:	d1000046 	sub	x6, x2, #0x0
+   102b4:	d1000065 	sub	x5, x3, #0x0
+   102b8:	91008063 	add	x3, x3, #0x20
+   102bc:	d2800047 	mov	x7, #0x2                   	// #2
 
-0000000000010290 <Ysalta>:
-   10290:	b4fff99f 	cbz	xzr, 101c0 <mover_cuadrado>
+00000000000102c0 <Ysalta>:
+   102c0:	b4fff81f 	cbz	xzr, 101c0 <mover_cuadrado>
 
-0000000000010294 <FIN_JUEGO>:
-   10294:	aa0003e1 	mov	x1, x0
-   10298:	52881c64 	mov	w4, #0x40e3                	// #16611
-   1029c:	d280400b 	mov	x11, #0x200                 	// #512
-   102a0:	d280000c 	mov	x12, #0x0                   	// #0
-   102a4:	d280000d 	mov	x13, #0x0                   	// #0
-   102a8:	d280400f 	mov	x15, #0x200                 	// #512
-   102ac:	d280400e 	mov	x14, #0x200                 	// #512
-   102b0:	94000003 	bl	102bc <cuadrado>
-   102b4:	9400003a 	bl	1039c <Ledrojo>
+00000000000102c4 <FIN_JUEGO>:
+   102c4:	aa0003e1 	mov	x1, x0
+   102c8:	52881c64 	mov	w4, #0x40e3                	// #16611
+   102cc:	d280400b 	mov	x11, #0x200                 	// #512
+   102d0:	d280000c 	mov	x12, #0x0                   	// #0
+   102d4:	d280000d 	mov	x13, #0x0                   	// #0
+   102d8:	d280400f 	mov	x15, #0x200                 	// #512
+   102dc:	d280400e 	mov	x14, #0x200                 	// #512
+   102e0:	94000003 	bl	102ec <cuadrado>
+   102e4:	9400003a 	bl	103cc <Ledrojo>
 
-00000000000102b8 <InfLoop>:
-   102b8:	14000000 	b	102b8 <InfLoop>
+00000000000102e8 <InfLoop>:
+   102e8:	14000000 	b	102e8 <InfLoop>
 
-00000000000102bc <cuadrado>:
-   102bc:	8b1f03f2 	add	x18, xzr, xzr
-   102c0:	910001d2 	add	x18, x14, #0x0
+00000000000102ec <cuadrado>:
+   102ec:	8b1f03f2 	add	x18, xzr, xzr
+   102f0:	910001d2 	add	x18, x14, #0x0
 
-00000000000102c4 <Loop_filasY>:
-   102c4:	aa0c03f1 	mov	x17, x12
-   102c8:	aa1203ee 	mov	x14, x18
+00000000000102f4 <Loop_filasY>:
+   102f4:	aa0c03f1 	mov	x17, x12
+   102f8:	aa1203ee 	mov	x14, x18
 
-00000000000102cc <Loop_columnasX>:
-   102cc:	9b0d7d70 	mul	x16, x11, x13
-   102d0:	8b110210 	add	x16, x16, x17
-   102d4:	d37ffa10 	lsl	x16, x16, #1
-   102d8:	8b010210 	add	x16, x16, x1
-   102dc:	78000204 	sturh	w4, [x16]
-   102e0:	91000631 	add	x17, x17, #0x1
-   102e4:	f10005ce 	subs	x14, x14, #0x1
-   102e8:	b400004e 	cbz	x14, 102f0 <Fin_ColumnasX>
-   102ec:	17fffff8 	b	102cc <Loop_columnasX>
+00000000000102fc <Loop_columnasX>:
+   102fc:	9b0d7d70 	mul	x16, x11, x13
+   10300:	8b110210 	add	x16, x16, x17
+   10304:	d37ffa10 	lsl	x16, x16, #1
+   10308:	8b010210 	add	x16, x16, x1
+   1030c:	78000204 	sturh	w4, [x16]
+   10310:	91000631 	add	x17, x17, #0x1
+   10314:	f10005ce 	subs	x14, x14, #0x1
+   10318:	b400004e 	cbz	x14, 10320 <Fin_ColumnasX>
+   1031c:	17fffff8 	b	102fc <Loop_columnasX>
 
-00000000000102f0 <Fin_ColumnasX>:
-   102f0:	910005ad 	add	x13, x13, #0x1
-   102f4:	f10005ef 	subs	x15, x15, #0x1
-   102f8:	b400004f 	cbz	x15, 10300 <Fin_Cuadrado>
-   102fc:	17fffff2 	b	102c4 <Loop_filasY>
+0000000000010320 <Fin_ColumnasX>:
+   10320:	910005ad 	add	x13, x13, #0x1
+   10324:	f10005ef 	subs	x15, x15, #0x1
+   10328:	b400004f 	cbz	x15, 10330 <Fin_Cuadrado>
+   1032c:	17fffff2 	b	102f4 <Loop_filasY>
 
-0000000000010300 <Fin_Cuadrado>:
-   10300:	d61f03c0 	br	x30
+0000000000010330 <Fin_Cuadrado>:
+   10330:	d61f03c0 	br	x30
 
-0000000000010304 <dibujar_circulo>:
-   10304:	9b027c44 	mul	x4, x2, x2
-   10308:	cb020245 	sub	x5, x18, x2
-   1030c:	8b020246 	add	x6, x18, x2
-   10310:	cb020267 	sub	x7, x19, x2
-   10314:	8b020268 	add	x8, x19, x2
-   10318:	aa0703e9 	mov	x9, x7
+0000000000010334 <dibujar_circulo>:
+   10334:	9b027c44 	mul	x4, x2, x2
+   10338:	cb020245 	sub	x5, x18, x2
+   1033c:	8b020246 	add	x6, x18, x2
+   10340:	cb020267 	sub	x7, x19, x2
+   10344:	8b020268 	add	x8, x19, x2
+   10348:	aa0703e9 	mov	x9, x7
 
-000000000001031c <outer_loop>:
-   1031c:	eb08013f 	cmp	x9, x8
-   10320:	5400028c 	b.gt	10370 <end_outer_loop>
-   10324:	aa0503ea 	mov	x10, x5
+000000000001034c <outer_loop>:
+   1034c:	eb08013f 	cmp	x9, x8
+   10350:	5400028c 	b.gt	103a0 <end_outer_loop>
+   10354:	aa0503ea 	mov	x10, x5
 
-0000000000010328 <inner_loop>:
-   10328:	eb06015f 	cmp	x10, x6
-   1032c:	540001ec 	b.gt	10368 <end_inner_loop>
-   10330:	cb12014b 	sub	x11, x10, x18
-   10334:	9b0b7d6b 	mul	x11, x11, x11
-   10338:	cb13012c 	sub	x12, x9, x19
-   1033c:	9b0c7d8c 	mul	x12, x12, x12
-   10340:	8b0c016d 	add	x13, x11, x12
-   10344:	eb0401bf 	cmp	x13, x4
-   10348:	540000cc 	b.gt	10360 <skip_pixel>
-   1034c:	9b147d2e 	mul	x14, x9, x20
-   10350:	8b0a01ce 	add	x14, x14, x10
-   10354:	d37ff9ce 	lsl	x14, x14, #1
-   10358:	8b0101ce 	add	x14, x14, x1
-   1035c:	790001cf 	strh	w15, [x14]
+0000000000010358 <inner_loop>:
+   10358:	eb06015f 	cmp	x10, x6
+   1035c:	540001ec 	b.gt	10398 <end_inner_loop>
+   10360:	cb12014b 	sub	x11, x10, x18
+   10364:	9b0b7d6b 	mul	x11, x11, x11
+   10368:	cb13012c 	sub	x12, x9, x19
+   1036c:	9b0c7d8c 	mul	x12, x12, x12
+   10370:	8b0c016d 	add	x13, x11, x12
+   10374:	eb0401bf 	cmp	x13, x4
+   10378:	540000cc 	b.gt	10390 <skip_pixel>
+   1037c:	9b147d2e 	mul	x14, x9, x20
+   10380:	8b0a01ce 	add	x14, x14, x10
+   10384:	d37ff9ce 	lsl	x14, x14, #1
+   10388:	8b0101ce 	add	x14, x14, x1
+   1038c:	790001cf 	strh	w15, [x14]
 
-0000000000010360 <skip_pixel>:
-   10360:	9100054a 	add	x10, x10, #0x1
-   10364:	17fffff1 	b	10328 <inner_loop>
+0000000000010390 <skip_pixel>:
+   10390:	9100054a 	add	x10, x10, #0x1
+   10394:	17fffff1 	b	10358 <inner_loop>
 
-0000000000010368 <end_inner_loop>:
-   10368:	91000529 	add	x9, x9, #0x1
-   1036c:	17ffffec 	b	1031c <outer_loop>
+0000000000010398 <end_inner_loop>:
+   10398:	91000529 	add	x9, x9, #0x1
+   1039c:	17ffffec 	b	1034c <outer_loop>
 
-0000000000010370 <end_outer_loop>:
-   10370:	d61f03c0 	br	x30
+00000000000103a0 <end_outer_loop>:
+   103a0:	d61f03c0 	br	x30
 
-0000000000010374 <Ledverde>:
-   10374:	52800815 	mov	w21, #0x40                  	// #64
-   10378:	b9000295 	str	w21, [x20]
-   1037c:	d2a0002f 	mov	x15, #0x10000               	// #65536
-   10380:	d376d5ef 	lsl	x15, x15, #10
+00000000000103a4 <Ledverde>:
+   103a4:	52800815 	mov	w21, #0x40                  	// #64
+   103a8:	b9000295 	str	w21, [x20]
+   103ac:	d2a0002f 	mov	x15, #0x10000               	// #65536
+   103b0:	d376d5ef 	lsl	x15, x15, #10
 
-0000000000010384 <delayverde>:
-   10384:	d10005ef 	sub	x15, x15, #0x1
-   10388:	f10001ff 	cmp	x15, #0x0
-   1038c:	54ffffc1 	b.ne	10384 <delayverde>  // b.any
-   10390:	52800015 	mov	w21, #0x0                   	// #0
-   10394:	b9000295 	str	w21, [x20]
-   10398:	d61f03c0 	br	x30
+00000000000103b4 <delayverde>:
+   103b4:	d10005ef 	sub	x15, x15, #0x1
+   103b8:	f10001ff 	cmp	x15, #0x0
+   103bc:	54ffffc1 	b.ne	103b4 <delayverde>  // b.any
+   103c0:	52800015 	mov	w21, #0x0                   	// #0
+   103c4:	b9000295 	str	w21, [x20]
+   103c8:	d61f03c0 	br	x30
 
-000000000001039c <Ledrojo>:
-   1039c:	52804015 	mov	w21, #0x200                 	// #512
-   103a0:	b9000295 	str	w21, [x20]
-   103a4:	d2a0002f 	mov	x15, #0x10000               	// #65536
-   103a8:	d376d5ef 	lsl	x15, x15, #10
+00000000000103cc <Ledrojo>:
+   103cc:	52804015 	mov	w21, #0x200                 	// #512
+   103d0:	b9000295 	str	w21, [x20]
+   103d4:	d2a0002f 	mov	x15, #0x10000               	// #65536
+   103d8:	d376d5ef 	lsl	x15, x15, #10
 
-00000000000103ac <delayrojo>:
-   103ac:	d10005ef 	sub	x15, x15, #0x1
-   103b0:	f10001ff 	cmp	x15, #0x0
-   103b4:	54ffffc1 	b.ne	103ac <delayrojo>  // b.any
-   103b8:	52800015 	mov	w21, #0x0                   	// #0
-   103bc:	b9000295 	str	w21, [x20]
-   103c0:	d61f03c0 	br	x30
+00000000000103dc <delayrojo>:
+   103dc:	d10005ef 	sub	x15, x15, #0x1
+   103e0:	f10001ff 	cmp	x15, #0x0
+   103e4:	54ffffc1 	b.ne	103dc <delayrojo>  // b.any
+   103e8:	52800015 	mov	w21, #0x0                   	// #0
+   103ec:	b9000295 	str	w21, [x20]
+   103f0:	d61f03c0 	br	x30
 
-00000000000103c4 <LedAmbos>:
-   103c4:	52804815 	mov	w21, #0x240                 	// #576
-   103c8:	b9000295 	str	w21, [x20]
-   103cc:	d2a0002f 	mov	x15, #0x10000               	// #65536
-   103d0:	d376d5ef 	lsl	x15, x15, #10
+00000000000103f4 <LedAmbos>:
+   103f4:	52804815 	mov	w21, #0x240                 	// #576
+   103f8:	b9000295 	str	w21, [x20]
+   103fc:	d2a0002f 	mov	x15, #0x10000               	// #65536
+   10400:	d376d5ef 	lsl	x15, x15, #10
 
-00000000000103d4 <delayleds>:
-   103d4:	d10005ef 	sub	x15, x15, #0x1
-   103d8:	f10001ff 	cmp	x15, #0x0
-   103dc:	54ffffc1 	b.ne	103d4 <delayleds>  // b.any
-   103e0:	52800015 	mov	w21, #0x0                   	// #0
-   103e4:	b9000295 	str	w21, [x20]
-   103e8:	d61f03c0 	br	x30
+0000000000010404 <delayleds>:
+   10404:	d10005ef 	sub	x15, x15, #0x1
+   10408:	f10001ff 	cmp	x15, #0x0
+   1040c:	54ffffc1 	b.ne	10404 <delayleds>  // b.any
+   10410:	52800015 	mov	w21, #0x0                   	// #0
+   10414:	b9000295 	str	w21, [x20]
+   10418:	d61f03c0 	br	x30
