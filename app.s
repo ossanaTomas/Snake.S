@@ -81,6 +81,40 @@ CBZ X6, espera_pantalla_inicio
 	
 		BL cuadrado            // llamo a la funcion cuadrado. 
 		
+
+//llamamos a funcion random: }
+
+
+GenerateAgain: 
+
+bl generateRandomPosition
+
+ // esto es como una condicion And
+ //si ambos son 256 nesesito otro numeoro dado que es la posicion inicial de la snake
+ // con que alguno sea diferente, la posicion ya es valida.
+    cmp x18, #256    
+	b.NE Falsecondition    
+	cmp x19, #256   
+	b.EQ GenerateAgain
+Falsecondition: 
+
+
+    // Los resultados en píxeles están en x18 y x19
+    // x18 contiene la posición X en píxeles
+    // x19 contiene la posición Y en píxeeles
+
+
+//  MANZANA inicial:
+//llamamos a dibujar circulo con estos parametros
+    MOV x1, x0          // bien 
+	MOV x11, #512       // (Numero de columnas)No modificar.
+	//COMENTADO POR QUE TOMO EL RESULTADO DE LA SALIDA DE LO ALEATORIO
+   // MOV x18, #256       // centroX deberia tener la salida de la funcion anterior:
+   // MOV x19, #160       // centroY deberia tener la salida de la funcion anterior: 
+    MOV x2, #15        // radio
+    mov w15, #0xf800         
+    BL dibujar_circulo
+
 //----------------------------------------------------- Limites donde no pisar -----------------------------------------------------------------------
 
 	//Limite de Izquierdo X=0 Y=0 ancho 32 alto 512
@@ -137,13 +171,17 @@ CBZ X6, espera_pantalla_inicio
   X5---> Guarda la pocision del pixel anererior en Y correspondiente a la casilla aneterior de arriba y abajo
   */
 
-	MOV X2, #224
-	MOV X3, #224
+	MOV X2, #256
+	MOV X3, #256
 
-	MOV X6, #224  //Para anterior X
-	MOV X5, #224 //Para anerior x
+	MOV X6, #256  //Para anterior X
+	MOV X5, #256 //Para anerior x
 
 	MOV X7, #0 //registro de guarado GPIO anterior 
+
+
+
+
 
 
 //Loop del juego:
@@ -167,10 +205,37 @@ mover_cuadrado:
 	//Comparo si estoy fuera del mapa limite arriba 
 		CMP X3,#32
 		BLT FIN_JUEGO
+        
+  
+	//Comparar si comio manzana esto se va dar si tanto las posiciones en 
+	// x como en Y de la snake son iguales a la Apple: 
+	    cmp x2,x18
+		B.ne Nocome
+		cmp x3,x19
+		b.eq Come
 
+
+//  esto da error la comprovacion de comer
+/*
+
+Come: 
+   bL Ledverde
+   bL generateRandomPosition
+
+    MOV x1, x0          // bien 
+	MOV x11, #512       // (Numero de columnas)No modificar.
+	//COMENTADO POR QUE TOMO EL RESULTADO DE LA SALIDA DE LO ALEATORIO
+   // MOV x18, #256       // centroX deberia tener la salida de la funcion anterior:
+   // MOV x19, #160       // centroY deberia tener la salida de la funcion anterior: 
+    MOV x2, #15        // radio
+    mov w15, #0xf800    
+   bL dibujar_circulo
+
+Nocome: 		
+*/
 
 	// --- Delay loop ---
-	movz x11, 0x20, lsl #16
+	movz x11, 0x1A, lsl #16
 	delay1: 
 	sub x11,x11,#1
 	cbnz x11, delay1
