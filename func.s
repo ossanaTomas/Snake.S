@@ -19,8 +19,8 @@
 // deberia limpiar x16
 
 
-.equ radio, 15 
-.equ radioCuadrado, 225
+.equ radio, 16 
+.equ radioCuadrado, 256
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 cuadrado: 
 
@@ -112,6 +112,12 @@ dibujar_circulo:
     sub x18, x18, #16    // para alinear con multiplos de 32, resto el radio de mi circulo a 
 	sub x19, x19, #16    // las variables de inicio. obtengo funcionalidad de grilla. 
 
+    SUB SP, SP, #32		// Reservo lugar X30, x3, x4, x5
+	STR x30, [SP, #24]
+	STR X7, [SP, #16]
+	STR X6, [SP, #8]
+	STR X5, [SP, #0]
+
     mov x4, radio
     MUL x4, x4, x4      // calculamos radio^2 
     // recorer el cuadrado delimitador alrededor del circulo
@@ -162,7 +168,15 @@ outer_loop:
 	B outer_loop
 
 end_outer_loop:
-   
+    
+	mov x18,x5
+	mov x19,x7 
+
+	LDR x30, [SP, #24]
+	LDR X7, [SP, #16]
+	LDR X6, [SP, #8]
+	LDR X5, [SP, #0]
+	ADD SP, SP, #32		// Libero la memoria
  
    br X30
 
@@ -181,7 +195,7 @@ Ledverde:
 	 str w21, [x20, 0]                      //guardo en la posicion de memoria de los GPIO
 
       mov x15, #65536					   // cualquier numero para delay
-	  lsl x15, x15, 8
+	  lsl x15, x15, 4
     delayverde:    	                       // hago que led verde este prendido cierto tiempo
 		sub x15, x15, #1
     	cmp x15, #0
@@ -215,7 +229,7 @@ LedAmbos:
 	 str w21, [x20, 0]                      //guardo en la posicion de memoria de los GPIO
 
       mov x15, #65536					   // cualquier numero para delay
-	  lsl x15, x15, 10
+	  lsl x15, x15, 4
     delayleds:    	                       // hago que led verde este prendido cierto tiempo
 		sub x15, x15, #1
     	cmp x15, #0

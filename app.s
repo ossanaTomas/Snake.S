@@ -67,6 +67,8 @@ MOV X3, #285
 
 SUB X6, X6, #1
 CBZ X6, espera_pantalla_inicio
+ BL LedAmbos
+ BL LedAmbos
 
 
 //------------------------------------------------------LA TIERRA---------------------------------------------------------------------
@@ -194,12 +196,15 @@ mover_cuadrado:
 
     	//Comparar si comio manzana esto se va dar si tanto las posiciones en 
 	  // x como en Y de la snake son iguales a la Apple: 
+	
+	 
+	  
 
 	    cmp x2,x18
 		B.ne Nocome
 		cmp x3,x19
 		b.eq Come
-
+        b Nocome
 //  esto da error la comprovacion de comer
 Come: 
  
@@ -211,10 +216,10 @@ Come:
   //   MOV x2, #15        // radio
 
   //sOLO DESCOMENTAR LAS SIGUJIENTES LINEAS PARA LA LLAMADA AL CIRCULO: 
-   bl Ledverde
-  //bL generateRandomPosition
-   mov w15, #0xf800    
-   bL dibujar_circulo
+    bl Ledverde
+    bL generateRandomPosition
+    mov w15, #0xf800 
+    bL dibujar_circulo
 
 Nocome: 
       
@@ -369,7 +374,7 @@ CBZ XZR, mover_cuadrado
 
 
 
-//-------------------------------------------------------Infinity loop---------------------------------------------------------------------------
+//-------------------------------------------------------fin juego---------------------------------------------------------------------------
 
 FIN_JUEGO:
 	  //llamamos a dibujar cuadrado con estos parametros: 
@@ -382,7 +387,10 @@ FIN_JUEGO:
 		MOV x14, #512         // hasta donde iterar en X = x14  ACA MODIFICO ANCHO
 	
 		BL cuadrado            // llamo a la funcion cuadrado. 
-        BL Ledrojo             //  
-
+        BL Ledrojo   
+		// cuando termino todo, si preciona alguna tecla, vuelve a jugar. 
+		//Bl inputRead
+		//cmp w22,0          //  
+       // b.ne app
 InfLoop: 
 	b InfLoop  

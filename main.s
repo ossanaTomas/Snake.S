@@ -44,6 +44,11 @@ FB_Init:
 	str w0,[x2] // Store Frame Buffer Pointer Physical Address
 
 	// Core 0 branch to app	
+	//LDR     X9, =stack_top   // Load the address of stack_top into x0
+   // MOV     sp, x29
+	// Core 0 branch to app	
+	ADRP    x29, stack_top
+    MOV     sp, x29
 	b app	
 
 	// Infinite Loop For Core 1, 2 and 3	
@@ -99,3 +104,6 @@ FB_POINTER:
 	.word 0x00000000 // $0 (End Tag)
 FB_STRUCT_END:
 
+stack_top:
+    .space  4096   /* 4 KB stack */
+	
