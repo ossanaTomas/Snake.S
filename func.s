@@ -18,23 +18,26 @@
 	
 // deberia limpiar x16
 
+
+.equ radio, 15 
+.equ radioCuadrado, 225
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 cuadrado: 
 
-    Add x18,xzr,xzr     // x18=0
-    Add x18,x14,#0     
+    
+    mov x1,x14 
 
 	Loop_filasY:
 		
 		MOV x17, x12    // Restaurar valor inicial de X-columna para cada nueva fila
-        MOV x14, x18   // ancho- Restaurar ancho del cuadrado para la siguiente fila  ACA MODICICA ANCHO
+        MOV x14, x1  // ancho- Restaurar ancho del cuadrado para la siguiente fila  ACA MODICICA ANCHO
 	
 			Loop_columnasX:
 			                            // Calcular direccion para pintar
 					MUL x16, x11, x13    		// x16 = i * n
 					ADD x16, x16, x17   	    // x16 = (i * n) + j
 					LSL x16, x16, #1    		// x16 =  2* ((i * n) + j)
-					ADD x16, x16, x1     		// x16 = A + 2 * (i * n + j)
+					ADD x16, x16, x0     		// x16 = A + 2 * (i * n + j)
 					STURH w4, [x16, #0]  		// pintar la posición X16
     
 					ADD x17, x17, #1			// Incrementar indice de columna-> siguiente x
@@ -109,12 +112,13 @@ dibujar_circulo:
     sub x18, x18, #16    // para alinear con multiplos de 32, resto el radio de mi circulo a 
 	sub x19, x19, #16    // las variables de inicio. obtengo funcionalidad de grilla. 
 
-    MUL x4, x2, x2      // calculamos radio^2 
+    mov x4, radio
+    MUL x4, x4, x4      // calculamos radio^2 
     // recorer el cuadrado delimitador alrededor del circulo
-    SUB x5, x18, x2     // inicioX = centroX - radio
-    ADD x6, x18, x2     // endX = centroX + radio
-    SUB x7, x19, x2     // inicioY = centroY - radio
-    ADD x8, x19, x2     // endY = centroY + radio
+    SUB x5, x18, radio     // inicioX = centroX - radio
+    ADD x6, x18, radio     // endX = centroX + radio
+    SUB x7, x19, radio     // inicioY = centroY - radio
+    ADD x8, x19, radio     // endY = centroY + radio
 
     MOV x9, x7          // y = incioY
 
@@ -144,7 +148,7 @@ outer_loop:
 				MUL x14, x9, x11    // y * N
 				ADD x14, x14, x10   // (y * N) + x
 				LSL x14, x14, #1    // 2*(y * N) + x 
-				ADD x14, x14, x1    // base address + offset=  A+ 2*(y * N) + x 
+				ADD x14, x14, x0    // base address + offset=  A+ 2*(y * N) + x 
 				
 				STRH w15, [x14]     //pinta!!
 

@@ -18,7 +18,7 @@ app:
 	// selecciono como entradas todos lo pines que voy a utilizar. 
 	
 	//configurar GPIO 1 y 3 como Ouput: 
-     mov x26, #0x000           //nesesito un 1 en la posicion 6 y en la 9
+     mov x26, #0x000          //nesesito un 1 en la posicion 6 y en la 9
 	stur w26,[x20,#0]        //gpio sel0 es lo mismo que ofset de 0 desde la direccion base
                              //guarde en la posicion de memoria, que estos bits estan en 1. 
 
@@ -39,11 +39,11 @@ app:
 
 
 
-//x1 contine el framebuffer
+
 //------------------------------------------------------Pantalla de inicio----------------------------------------------------------------
 
 	//llamamos a dibujar cuadrado con estos parametros: 
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+	
 		MOV w4, #0xd970      // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
 		MOV x12, #0	           // indice de columnas = ACA MOFICA INICIO X
@@ -71,7 +71,7 @@ CBZ X6, espera_pantalla_inicio
 
 //------------------------------------------------------LA TIERRA---------------------------------------------------------------------
 	//llamamos a dibujar cuadrado con estos parametros: 
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+		  
 		MOV w4, #0x7BE0         // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
 		MOV x12, #0	           // indice de columnas = ACA MOFICA INICIO X
@@ -106,7 +106,7 @@ Falsecondition:
 
 //  MANZANA inicial:
 //llamamos a dibujar circulo con estos parametros
-    MOV x1, x0          // bien 
+ 
 	MOV x11, #512       // (Numero de columnas)No modificar.
 	//COMENTADO POR QUE TOMO EL RESULTADO DE LA SALIDA DE LO ALEATORIO
    // MOV x18, #256       // centroX deberia tener la salida de la funcion anterior:
@@ -118,7 +118,7 @@ Falsecondition:
 //----------------------------------------------------- Limites donde no pisar -----------------------------------------------------------------------
 
 	//Limite de Izquierdo X=0 Y=0 ancho 32 alto 512
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+	
 		MOV w4, #0x56df           // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
 		MOV x12, #0	           
@@ -128,7 +128,7 @@ Falsecondition:
 		BL cuadrado            
 
 	//Lmite Izquierdo X=480 Y=0
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+		
 		MOV w4, #0x56df           // ACA MODIFICO COLOR
 		MOV x11, #512          
 		MOV x12, #480          
@@ -139,7 +139,7 @@ Falsecondition:
 
 		
 	//Limite Superior X=0 y Y=0 alto 32 y ancho 512
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+		
 		MOV w4, #0x56df           
 		MOV x11, #512         
 		MOV x12, #0           
@@ -150,7 +150,7 @@ Falsecondition:
 
 
 	//Limite Inferior X=0 y Y=480
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+		
 		MOV w4, #0x56df          
 		MOV x11, #512          
 		MOV x12, #0           
@@ -187,6 +187,38 @@ Falsecondition:
 //Loop del juego:
 mover_cuadrado:
 
+
+
+//ACA ESTA LO QUE NO ESTA FUNCIONANDO, COMPARA SI ESTA SOBRE LA MANZANA
+// PODRIA PENSAR EN IMPLEMENTARLO COMPARANDO COLORES DE FORNDO
+
+    	//Comparar si comio manzana esto se va dar si tanto las posiciones en 
+	  // x como en Y de la snake son iguales a la Apple: 
+
+	    cmp x2,x18
+		B.ne Nocome
+		cmp x3,x19
+		b.eq Come
+
+//  esto da error la comprovacion de comer
+Come: 
+ 
+     
+    //	MOV x11, #512       // (Numero de columnas)No modificar.
+	//COMENTADO POR QUE TOMO EL RESULTADO DE LA SALIDA DE LO ALEATORIO
+   // MOV x18, #256       // centroX deberia tener la salida de la funcion anterior:
+   // MOV x19, #160       // centroY deberia tener la salida de la funcion anterior: 
+  //   MOV x2, #15        // radio
+
+  //sOLO DESCOMENTAR LAS SIGUJIENTES LINEAS PARA LA LLAMADA AL CIRCULO: 
+   bl Ledverde
+  //bL generateRandomPosition
+   mov w15, #0xf800    
+   bL dibujar_circulo
+
+Nocome: 
+      
+
 	//Los limite de  derecha e izquieda se comparan con registro X2
 	//Comparo si estoy fuera del mapa limite derecha
 		CMP X2, #480
@@ -207,32 +239,7 @@ mover_cuadrado:
 		BLT FIN_JUEGO
         
   
-	//Comparar si comio manzana esto se va dar si tanto las posiciones en 
-	// x como en Y de la snake son iguales a la Apple: 
-	    cmp x2,x18
-		B.ne Nocome
-		cmp x3,x19
-		b.eq Come
-
-
-//  esto da error la comprovacion de comer
-/*
-
-Come: 
-   bL Ledverde
-   bL generateRandomPosition
-
-    MOV x1, x0          // bien 
-	MOV x11, #512       // (Numero de columnas)No modificar.
-	//COMENTADO POR QUE TOMO EL RESULTADO DE LA SALIDA DE LO ALEATORIO
-   // MOV x18, #256       // centroX deberia tener la salida de la funcion anterior:
-   // MOV x19, #160       // centroY deberia tener la salida de la funcion anterior: 
-    MOV x2, #15        // radio
-    mov w15, #0xf800    
-   bL dibujar_circulo
-
-Nocome: 		
-*/
+		
 
 	// --- Delay loop ---
 	movz x11, 0x1A, lsl #16
@@ -244,7 +251,7 @@ Nocome:
 
 				
 	//Pinto pixel anterior 
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+	
 		MOV w4, #0x7BE0         // ACA MODIFICO COLOR      // ACA MODIFICO COLOR
 		MOV x11, #512          // NO SE MODIFICA
 		MOV x12, X6	           // indice de columnas = ACA MOFICA INICIO X
@@ -258,7 +265,7 @@ Nocome:
 
 
 	//llamamos a dibujar cuadrado con estos parametros: 
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+	
 		MOV w4, #0xFFFF        // ACA MODIFICO COLOR
 		MOV x11, #512          // NO SE MODIFICA
 		MOV x12, X2	           // indice de columnas = ACA MOFICA INICIO X
@@ -353,6 +360,9 @@ ABAJO:
 
 Ysalta:
 
+
+
+
 CBZ XZR, mover_cuadrado
 
 
@@ -363,7 +373,7 @@ CBZ XZR, mover_cuadrado
 
 FIN_JUEGO:
 	  //llamamos a dibujar cuadrado con estos parametros: 
-		MOV x1, x0  // x1 contiene la direccion base del frame buffer= A
+		
 		MOV w4, #0xf800      // ACA MODIFICO COLOR
 		MOV x11, #512          // N=Numero de pixeles- NO SE MODIFICA
 		MOV x12, #0	           // indice de columnas = ACA MOFICA INICIO X
